@@ -1,9 +1,26 @@
-import enrutador
+from lexer import tokenizar
+from parser import parsear
+from interprete import evaluar
 
-def main():
-    enrutador.iniciar_sistema()
+def limpiar_terminal() -> None:
+    import os
+    os.system("cls" if os.name == "nt" else "clear")
 
-if __name__ == "__main__":
-    main()
+while True:
+    limpiar_terminal()
+    print("[Ingrese xyz para salir.]")
+    texto = input(">>> : ")
 
+    if texto == "xyz":
+        break
 
+    try:
+        tokens = tokenizar(texto)
+        arbol = parsear(tokens)
+        resultado = evaluar(arbol, True)
+        print(resultado)
+
+    except Exception as error:
+        print(error)
+
+    input("Presione ENTER para continuar...")
