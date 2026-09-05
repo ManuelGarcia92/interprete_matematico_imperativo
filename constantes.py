@@ -14,3 +14,4 @@ OPERADORES_DOBLES = {
     "**" : "POTENCIA",
     "//" : "DIV_ENTERA"
     }
+

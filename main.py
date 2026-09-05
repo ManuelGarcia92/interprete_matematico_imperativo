@@ -17,7 +17,7 @@ while True:
     try:
         tokens = tokenizar(texto)
         arbol = parsear(tokens)
-        resultado = evaluar(arbol, True)
+        resultado = evaluar(arbol, imprimir=True)
         print(resultado)
 
     except Exception as error:

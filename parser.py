@@ -60,14 +60,23 @@ def expr(estado):
     return nodo
 
 def term(estado):
-    nodo = factor(estado)
+    nodo = power(estado)
 
     while match("MULTI", estado) or match("DIV", estado) or match("DIV_ENTERA", estado):
         operador = advance(estado)
-        derecha = factor(estado)
+        derecha = power(estado)
         nodo = nodo_binario(nodo, operador["valor"], derecha)
 
     return nodo   
+
+def power(estado):
+    nodo = factor(estado)
+    if match("POTENCIA", estado) or match("RAIZ_ENESIMA", estado):
+        operador = advance(estado)
+        derecha = power(estado)
+
+        return nodo_binario(nodo, operador["valor"], derecha)
+    return nodo
 
 def factor(estado):
     if match("NUMERO", estado):
