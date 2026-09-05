@@ -1,28 +1,4 @@
-def nodo_binario(izquierda, operador, derecha):
-    return {
-    "tipo"      : "nodo_binario",   
-    "izquierda" : izquierda,
-    "operador"  : operador,
-    "derecha"   : derecha
-    }
-
-def nodo_numero(valor):
-    return {
-    "tipo"  : "nodo_numero",
-    "valor" : valor
-    }
-
-def nodo_positivo(valor):
-    return {
-    "tipo"  : "nodo_positivo",
-    "valor" : valor
-    }
-
-def nodo_negativo(valor):
-    return {
-    "tipo"  : "nodo_negativo",
-    "valor" : valor
-    }
+from nodos import nodo_binario, nodo_numero, nodo_positivo, nodo_negativo, nodo_identificador, nodo_asignacion
 
 def advance(estado, pasos=1):
     if estado["puntero"] + pasos < len(estado["tokens"]):
@@ -44,6 +20,7 @@ def match(tipo, estado, pasos=0):
     return None
 
 def parsear(tokens):
+    tree = []
     estado = {
     "tokens"  : tokens,
     "puntero" : 0
@@ -52,8 +29,22 @@ def parsear(tokens):
     if match("FIN", estado):
         raise Exception("Expresión vacia")
     
-    tree = expr(estado)
+    while not match("FIN", estado):
+        if estado["puntero"] < len(estado["tokens"]) - 1 and match("IDENTIFICADOR", estado) and match("ASIGNACION", estado, 1):
+            token = advance(estado, 2)
+            nodo = expr(estado)
+            asign_tree = nodo_asignacion(token["valor"], nodo)
+            tree.append(asign_tree)
 
+        else:
+            tree.append(expr(estado))
+
+        if match("PUNTO_Y_COMA", estado):
+            advance(estado)
+
+        else:
+            break
+    
     token_actual = peek(estado)
     
     if token_actual and token_actual["tipo"] != "FIN":
@@ -115,6 +106,10 @@ def factor(estado):
         
         elif operador["tipo"] == "RESTA":
             return nodo_negativo(power(estado))
+        
+    elif match("IDENTIFICADOR", estado):
+        token = advance(estado)
+        return nodo_identificador(token["valor"])
                 
     elif match("NUMERO", estado):
         token = advance(estado)
