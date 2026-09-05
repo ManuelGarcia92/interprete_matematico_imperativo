@@ -78,8 +78,8 @@ def power(estado):
     if match("POTENCIA", estado) or match("RAIZ_ENESIMA", estado):
         operador = advance(estado)
         derecha = power(estado)
-
         return nodo_binario(nodo, operador["valor"], derecha)
+    
     return nodo
 
 def factor(estado):
