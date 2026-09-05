@@ -12,6 +12,18 @@ def nodo_numero(valor):
     "valor" : valor
     }
 
+def nodo_positivo(valor):
+    return {
+    "tipo"  : "nodo_positivo",
+    "valor" : valor
+    }
+
+def nodo_negativo(valor):
+    return {
+    "tipo"  : "nodo_negativo",
+    "valor" : valor
+    }
+
 def advance(estado, pasos=1):
     if estado["puntero"] + pasos < len(estado["tokens"]):
         token = estado["tokens"][estado["puntero"]]
@@ -71,6 +83,7 @@ def term(estado):
 
 def power(estado):
     nodo = factor(estado)
+
     if match("POTENCIA", estado) or match("RAIZ_ENESIMA", estado):
         operador = advance(estado)
         derecha = power(estado)
@@ -79,7 +92,31 @@ def power(estado):
     return nodo
 
 def factor(estado):
-    if match("NUMERO", estado):
+    if match("PAREN_IZQ", estado):
+        advance(estado)
+        paren_tree = expr(estado)
+
+        if not match("PAREN_DER", estado):
+            raise ValueError("No cerraste un parentesis")
+
+        else:
+            advance(estado)
+
+        return paren_tree
+    
+    elif match("SUMA", estado) or match("RESTA", estado):
+        if match("SUMA", estado, 1) or match("RESTA", estado, 1):
+            raise ValueError("Operador repetido")
+
+        operador = advance(estado)
+
+        if operador["tipo"] == "SUMA":
+            return nodo_positivo(power(estado))
+        
+        elif operador["tipo"] == "RESTA":
+            return nodo_negativo(power(estado))
+                
+    elif match("NUMERO", estado):
         token = advance(estado)
         return nodo_numero(token["valor"])
     

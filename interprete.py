@@ -2,6 +2,12 @@ def evaluar(nodo, imprimir=False):
     if nodo["tipo"] == "nodo_numero":
         return nodo["valor"]
     
+    elif nodo["tipo"] == "nodo_positivo":
+        return evaluar(nodo["valor"], imprimir)
+
+    elif nodo["tipo"] == "nodo_negativo":
+        return -evaluar(nodo["valor"], imprimir)
+    
     elif nodo["tipo"] == "nodo_binario":
         izquierda = evaluar(nodo["izquierda"], imprimir)
         derecha = evaluar(nodo["derecha"], imprimir)
