@@ -1,4 +1,4 @@
-from tabla_de_simbolos import simbolos
+from tabla_de_simbolos import tabla_de_simbolos
 from lexer import tokenizar
 from parser import parsear
 from interprete import recorrer
@@ -12,8 +12,7 @@ while True:
     limpiar_terminal()
     print("[Ingrese xyz para salir.]")
     texto = input(">>> : ")
-    memoria = None
-    memoria = simbolos
+    memoria = tabla_de_simbolos()
     
     if texto == "xyz":
         break
@@ -21,7 +20,7 @@ while True:
     try:
         tokens = tokenizar(texto)
         arbol = parsear(tokens)
-        resultado = recorrer(arbol, simbolos, imprimir=True)
+        resultado = recorrer(arbol, memoria, imprimir=True)
         if resultado:
             print(resultado)
         else:

@@ -1,7 +1,8 @@
-simbolos = {
+def tabla_de_simbolos():
+    return {
     "pi" : 3.1415926536,
     "e"  : 2.7182818285
-}
+    }
 
 def declarar(memoria, nombre, valor):
     if nombre in memoria:

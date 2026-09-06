@@ -26,7 +26,7 @@ def nodo_negativo(valor):
 
 def nodo_identificador(nombre):
     return {
-    "tipo"   : "nodo_identificador",
+    "tipo"       : "nodo_identificador",
     "var_nombre" : nombre
     }
 
