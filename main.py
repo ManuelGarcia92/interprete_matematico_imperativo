@@ -12,14 +12,14 @@ while True:
     limpiar_terminal()
     print("[Ingrese xyz para salir.]")
     texto = input(">>> : ")
-    memoria = tabla_de_simbolos()
-    
+
     if texto == "xyz":
         break
 
     try:
         tokens = tokenizar(texto)
         arbol = parsear(tokens)
+        memoria = tabla_de_simbolos()
         resultado = recorrer(arbol, memoria, imprimir=True)
         if resultado:
             print(resultado)

@@ -1,4 +1,4 @@
-from tabla_de_simbolos import declarar, obtener
+from tabla_de_simbolos import declarar_variable, obtener_variable
 
 def evaluar(nodo, memoria, imprimir=False):
     if nodo["tipo"] == "nodo_numero":
@@ -11,11 +11,11 @@ def evaluar(nodo, memoria, imprimir=False):
         return -evaluar(nodo["valor"], memoria, imprimir)
     
     elif nodo["tipo"] == "nodo_asignacion":
-        variable = evaluar(nodo["var_valor"], memoria, False)
-        return declarar(memoria, nodo["var_nombre"], variable)
+        variable = evaluar(nodo["var_valor"], memoria, imprimir=True)
+        return declarar_variable(memoria, nodo["var_nombre"], variable)
     
     elif nodo["tipo"] == "nodo_identificador":
-        return obtener(memoria, nodo["var_nombre"])
+        return obtener_variable(memoria, nodo["var_nombre"])
 
     elif nodo["tipo"] == "nodo_binario":
         izquierda = evaluar(nodo["izquierda"], memoria, imprimir)
