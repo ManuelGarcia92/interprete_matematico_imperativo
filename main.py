@@ -15,11 +15,8 @@ def main() -> None:
             tokens = tokenizar(texto)
             arbol = parsear(tokens)
             memoria = tabla_de_simbolos()
-            resultado = recorrer(arbol, memoria, imprimir=True)
-            if resultado:
-                print(resultado)
-            else:
-                print()
+            resultado = recorrer(arbol, memoria)
+            print(resultado)
         except Exception as error:
             print(error)
         pausa()
