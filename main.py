@@ -16,7 +16,10 @@ def main() -> None:
             arbol = parsear(tokens)
             memoria = tabla_de_simbolos()
             resultado = recorrer(arbol, memoria)
-            print(resultado)
+            if resultado == None:
+                print()
+            else:
+                print(resultado)
         except Exception as error:
             print(error)
         pausa()
