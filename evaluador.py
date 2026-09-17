@@ -1,25 +1,25 @@
 import tabla_de_simbolos 
 
-def evaluar(nodo, memoria):
+def recorrer(nodo, memoria):
     if nodo["tipo"] == "nodo_numero":
         return nodo["valor"]
     
     elif nodo["tipo"] == "nodo_positivo":
-        return evaluar(nodo["valor"], memoria)
+        return recorrer(nodo["valor"], memoria)
 
     elif nodo["tipo"] == "nodo_negativo":
-        return -evaluar(nodo["valor"], memoria)
+        return -recorrer(nodo["valor"], memoria)
     
     elif nodo["tipo"] == "nodo_asignacion":
-        variable = evaluar(nodo["var_valor"], memoria)
+        variable = recorrer(nodo["var_valor"], memoria)
         return tabla_de_simbolos.declarar_variable(memoria, nodo["var_nombre"], variable)
     
     elif nodo["tipo"] == "nodo_identificador":
         return tabla_de_simbolos.obtener_variable(memoria, nodo["var_nombre"])
 
     elif nodo["tipo"] == "nodo_binario":
-        izquierda = evaluar(nodo["izquierda"], memoria)
-        derecha = evaluar(nodo["derecha"], memoria)
+        izquierda = recorrer(nodo["izquierda"], memoria)
+        derecha = recorrer(nodo["derecha"], memoria)
        
         if nodo["operador"] == "+":
             return izquierda + derecha
@@ -48,10 +48,10 @@ def evaluar(nodo, memoria):
                 raise Exception("ERROR: No se puede dividir por 0")
             return izquierda // derecha
         
-def recorrer(arboles, memoria):
+def eval(arboles, memoria):
     resultado = None
     for arbol in arboles:
-        resultado = evaluar(arbol, memoria)
+        resultado = recorrer(arbol, memoria)
     return resultado       
 
         

@@ -2,7 +2,7 @@ from extras import limpiar_terminal, pausa
 from tabla_de_simbolos import tabla_de_simbolos
 from lexer import tokenizar
 from parser import parsear
-from evaluador import recorrer
+from evaluador import eval
 
 def main() -> None:
     while True:
@@ -15,7 +15,7 @@ def main() -> None:
             tokens = tokenizar(texto)
             arbol = parsear(tokens)
             memoria = tabla_de_simbolos()
-            resultado = recorrer(arbol, memoria)
+            resultado = eval(arbol, memoria)
             if resultado == None:
                 print()
             else:
