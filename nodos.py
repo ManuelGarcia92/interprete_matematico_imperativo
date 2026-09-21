@@ -1,8 +1,8 @@
-def nodo_binario(izquierda, operador, derecha):
+def nodo_binario(operador, izquierda, derecha):
     return {
-    "tipo"      : "nodo_binario",   
+    "tipo"      : "nodo_binario",  
+    "operador"  : operador, 
     "izquierda" : izquierda,
-    "operador"  : operador,
     "derecha"   : derecha
     }
 

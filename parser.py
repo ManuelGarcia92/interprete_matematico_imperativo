@@ -1,5 +1,4 @@
 import nodos
-
 def advance(estado, pasos=1):
     if estado["puntero"] + pasos < len(estado["tokens"]):
         token = estado["tokens"][estado["puntero"]]
@@ -54,45 +53,36 @@ def parsear(tokens):
 
 def expr(estado):
     nodo = term(estado)
-
     while match("SUMA", estado) or match("RESTA", estado):
         operador = advance(estado)
         derecha = term(estado)
-        nodo = nodos.nodo_binario(nodo, operador["valor"], derecha)
-
+        nodo = nodos.nodo_binario(operador["valor"], nodo, derecha)
     return nodo
 
 def term(estado):
     nodo = power(estado)
-
-    while match("MULTI", estado) or match("DIV", estado) or match("DIV_ENTERA", estado):
+    while match("MULTI", estado) or match("DIV", estado) or match("DIV_ENTERA", estado) or match("MODULO", estado):
         operador = advance(estado)
         derecha = power(estado)
-        nodo = nodos.nodo_binario(nodo, operador["valor"], derecha)
-
+        nodo = nodos.nodo_binario(operador["valor"], nodo, derecha)
     return nodo   
 
 def power(estado):
     nodo = factor(estado)
-
     if match("POTENCIA", estado) or match("RAIZ_ENESIMA", estado):
         operador = advance(estado)
         derecha = power(estado)
-        return nodos.nodo_binario(nodo, operador["valor"], derecha)
-    
+        return nodos.nodo_binario(operador["valor"], nodo, derecha)
     return nodo
 
 def factor(estado):
     if match("PAREN_IZQ", estado):
         advance(estado)
         paren_tree = expr(estado)
-
         if not match("PAREN_DER", estado):
             raise ValueError("No cerraste un parentesis")
-
         else:
             advance(estado)
-
         return paren_tree
     
     elif match("SUMA", estado) or match("RESTA", estado):
@@ -110,7 +100,7 @@ def factor(estado):
     elif match("IDENTIFICADOR", estado):
         token = advance(estado)
         return nodos.nodo_identificador(token["valor"])
-                
+       
     elif match("NUMERO", estado):
         token = advance(estado)
         return nodos.nodo_numero(token["valor"])
@@ -118,5 +108,7 @@ def factor(estado):
     else:
         raise ValueError("Esperaba un número")
             
+            
+    
             
     

@@ -2,20 +2,20 @@ from extras import limpiar_terminal, pausa
 from tabla_de_simbolos import tabla_de_simbolos
 from lexer import tokenizar
 from parser import parsear
-from evaluador import eval
+from evaluador import evaluar
 
 def main() -> None:
     while True:
         limpiar_terminal()
         print("[Ingrese break para salir]")
-        texto = input(">>>: ")
+        texto = input(">>> : ")
         if texto == "break":
             break
         try:
             tokens = tokenizar(texto)
             arbol = parsear(tokens)
             memoria = tabla_de_simbolos()
-            resultado = eval(arbol, memoria)
+            resultado = evaluar(arbol, memoria)
             if resultado == None:
                 print()
             else:
